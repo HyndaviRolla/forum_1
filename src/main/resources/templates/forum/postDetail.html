@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">     
+<title>Blog post</title>
+</head>
+<body th:object="${post}">
+	<h1>Post by <span th:text="*{author.name}">John Doe</span></h1>
+	<p th:text="*{content}">This is a post.</p>
+	<p>Likes: <span th:text="${likeCount}">0</span></p>
+	<form method="post" action="#" th:action="@{/forum/post/{id}/like(id = ${post.id})}">
+		<input type="hidden" th:name="likerName" th:value="${likerName}">
+		<input type="submit" value="Like!">
+	</form>
+	  <hr>
+   <form th:action="@{/forum/post/{postId}/comment/add(postId=${post.id})}" method="post">
+    <div class="form-group">
+        <label for="content">Comment:</label>
+        <textarea id="content" name="content" class="form-control" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Comment</button>
+</form>
+
+ <h2> Comments</h2>
+ <div th:each="comment : ${post.comments}">
+    <!-- Display comment content here -->
+    <p th:text="${comment.content}"></p>
+    <p>Comment by <span th:text="${comment.user.name}">User Name</span></p>
+     <p>Timestamp: <span th:text="${#dates.format(comment.date, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</span></p>
+    <!-- Add a report button with comment id and content as parameters -->
+    <form th:action="@{/forum/post/{postId}/comment/report(postId = ${post.id})}" method="post">
+        <input type="hidden" name="commentId" th:value="${comment.id}" />
+        <input type="hidden" name="commentContent" th:value="${comment.content}" />
+         
+        <button type="submit" class="btn btn-danger">Report</button>
+    </form>
+</div>
+</body>
+</html>

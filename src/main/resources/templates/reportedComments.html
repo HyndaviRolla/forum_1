@@ -1,0 +1,31 @@
+<!-- Inside reportedComments.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reported Comments</title>
+</head>
+<body>
+    <h1>Reported Comments</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Comment ID</th>
+                <th>Comment Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="reportedComment : ${reportedComments}">
+                <td th:text="${reportedComment.commentId}"></td>
+                <td th:text="${reportedComment.commentContent}"></td>
+                  <td>
+	                <form th:action="@{/forum/delete-comment}" method="post">
+                    <input type="hidden" name="commentId" th:value="${reportedComment.commentId}" />
+                    <button type="submit" class="btn btn-danger">Delete Comment</button>
+                </form>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
